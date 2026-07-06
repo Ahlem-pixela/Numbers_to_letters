@@ -1,21 +1,20 @@
-
-
-//----------------------func
-
-
 function nombreEnLettres(nombre) {
   const unite = ["zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"];
   const dizaine = ["", "dix", "vingt", "trente", "quarante", "cinquante", "soixante"];
   const dizaine10_19 = ["dix", "onze", "douze", "treize", "quatorze", "quinze", "seize", "dix-sept", "dix-huit", "dix-neuf"];
-
+  
   function convertMoinsDeMille(n) {
     let result = "";
     const centaines = Math.floor(n / 100);
     const reste = n % 100;
 
     if (centaines > 0) {
-      result += unite[centaines] + " cent";
-      if (reste === 0 && centaines > 1) result += "s";
+      if (centaines === 1) {
+        result += "cent";
+      } else {
+        result += unite[centaines] + " cent";
+      }
+      if (reste === 0 && centaines > 1) result += "s"; // ex: "deux cents"
       if (reste > 0) result += " ";
     }
 
@@ -26,13 +25,11 @@ function nombreEnLettres(nombre) {
     } else {
       const d = Math.floor(reste / 10);
       const u = reste % 10;
-      if (d === 7) {
-        result += "soixante-" + (u > 0 ? dizaine10_19[u] : "dix");
-      } else if (d === 9) {
-        result += "quatre-vingt-" + (u > 0 ? dizaine10_19[u] : "dix");
+      if (d === 7 || d === 9) {
+        result += dizaine[d - 1] + "-" + dizaine10_19[u];
       } else {
         result += dizaine[d];
-        if (u === 1 && d !== 1) {
+        if (u === 1 && (d === 1 || d > 1)) {
           result += " et un";
         } else if (u > 0) {
           result += "-" + unite[u];
@@ -64,24 +61,37 @@ function nombreEnLettres(nombre) {
   const [entierStr, decimalStr] = nombre.toString().split(".");
   const entier = parseInt(entierStr, 10);
   const partieEntiere = convertEntier(entier);
-
+  
   let resultat = partieEntiere;
   if (decimalStr) {
     const decimalNombre = parseInt(decimalStr, 10);
     if (decimalStr.startsWith("0") && decimalStr.length > 1) {
+      // Case like 0.05 => "zéro virgule zéro cinq"
       const chiffres = decimalStr.split("").map(c => unite[parseInt(c)]);
       resultat += " virgule " + chiffres.join(" ");
     } else {
+      // Otherwise treat the full decimal part as a number (e.g. 25 => "vingt-cinq")
       resultat += " virgule " + convertMoinsDeMille(decimalNombre);
     }
-    resultat += " Centimes";
   }
 
-  return resultat;
+  return resultat + "  Centime";
 }
-
 console.log(nombreEnLettres(1500.05));         // "mille cinq cents virgule cinq"
 console.log(nombreEnLettres("123456,08"));    // "cent vingt-trois mille quatre cent cinquante-six virgule sept huit"
-console.log(nombreEnLettres(1000000));
+console.log(nombreEnLettres(1000000));  
+console.log(nombreEnLettres(52452454.07));  
+console.log(nombreEnLettres(56456456.77));  
+console.log(nombreEnLettres(54545445456.18));  
 
+let name = "Ahlem";
+console.log("Hello " + name);
+
+
+
+function changeText() {
+  var para = document.getElementById("textToChange");
+  para.textContent = "Text changed!";
+  para.style.background = "blue";
+}
 
