@@ -34,14 +34,14 @@ douze mille trois cent quarante-cinq
 
 ## Installation
 
-...
+add it to any project
+call it by sending the number you want to convert
 
 ---
 
 ## Usage
 
-...
-
+its a js file, can be attached to any coding language
 ---
 
 ## Applications
@@ -57,4 +57,4 @@ douze mille trois cent quarante-cinq
 
 ## License
 
-MIT
+@Ahlem_cr
